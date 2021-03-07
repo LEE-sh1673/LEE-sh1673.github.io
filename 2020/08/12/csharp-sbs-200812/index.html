@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<!-- custom font cdn here. -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"lee-sh1673.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="200812 SBS C# 게임 프로그래밍">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Data Type, Object, Boxing&#x2F;Unboxing, Staic Method">
+<meta property="og:url" content="http://lee-sh1673.github.io/2020/08/12/csharp-sbs-200812/index.html">
+<meta property="og:site_name" content="NotePad">
+<meta property="og:description" content="200812 SBS C# 게임 프로그래밍">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://lee-sh1673.github.io/2020/08/12/csharp-sbs-200812/Boxing.png">
+<meta property="og:image" content="http://lee-sh1673.github.io/2020/08/12/csharp-sbs-200812/UnBoxing.png">
+<meta property="article:published_time" content="2020-08-12T11:02:11.000Z">
+<meta property="article:modified_time" content="2021-03-07T08:48:07.098Z">
+<meta property="article:author" content="LSH">
+<meta property="article:tag" content="Game Academy">
+<meta property="article:tag" content="C#">
+<meta property="article:tag" content="C# 형식">
+<meta property="article:tag" content="C# Object">
+<meta property="article:tag" content="Boxing&#x2F;UnBoxing">
+<meta property="article:tag" content="Staic Method">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lee-sh1673.github.io/2020/08/12/csharp-sbs-200812/Boxing.png">
+
+<link rel="canonical" href="http://lee-sh1673.github.io/2020/08/12/csharp-sbs-200812/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Data Type, Object, Boxing/Unboxing, Staic Method | NotePad</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">NotePad</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://lee-sh1673.github.io/2020/08/12/csharp-sbs-200812/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="LSH">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="NotePad">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Data Type, Object, Boxing/Unboxing, Staic Method
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-08-12 20:02:11" itemprop="dateCreated datePublished" datetime="2020-08-12T20:02:11+09:00">2020-08-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-03-07 17:48:07" itemprop="dateModified" datetime="2021-03-07T17:48:07+09:00">2021-03-07</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Game-Programming/" itemprop="url" rel="index"><span itemprop="name">Game Programming</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Game-Programming/C/" itemprop="url" rel="index"><span itemprop="name">C#</span></a>
+                </span>
+            </span>
+
+          
+            <div class="post-description">200812 SBS C# 게임 프로그래밍</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="개요"><a href="#개요" class="headerlink" title="개요"></a>개요</h2><ul>
+<li>자료형</li>
+<li>Object 클래스</li>
+<li>Boxing/UnBoxing<ul>
+<li>값 형식과 참조 형식의 차이점</li>
+<li>Boxing</li>
+<li>UnBoxing</li>
+</ul>
+</li>
+<li>문자열 형식</li>
+<li>입출력</li>
+<li>예외 처리</li>
+<li>왜 인스턴스에서는 static 메서드에 접근할 수 없나요?</li>
+</ul>
+<h2 id="자료형"><a href="#자료형" class="headerlink" title="자료형"></a>자료형</h2><table>
+<thead>
+<tr>
+<th align="center">타입</th>
+<th align="center">형식</th>
+<th align="center">범위</th>
+<th align="center">초기값</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">bool</td>
+<td align="center">Boolean Value</td>
+<td align="center">True or False</td>
+<td align="center">false</td>
+</tr>
+<tr>
+<td align="center">byte</td>
+<td align="center">부호없는 8bit 정수</td>
+<td align="center">0 ~ 255</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">char</td>
+<td align="center">유니코드 16bit 문자</td>
+<td align="center">U+000 ~ U+fff</td>
+<td align="center">‘\0’</td>
+</tr>
+<tr>
+<td align="center">Decimal</td>
+<td align="center">28-29 자릿수의 128bit 정확한 소수</td>
+<td align="center">79,228,162,514,264,337,593,543,950,335 ~ 79,228,162,514,264,337,593,543,950,335</td>
+<td align="center">0.0M</td>
+</tr>
+<tr>
+<td align="center">Double</td>
+<td align="center">배정밀도 64bit 부동 소수점 숫자</td>
+<td align="center">-1.79769313486232e308 ~ 1.79769313486232e308</td>
+<td align="center">0.0D</td>
+</tr>
+<tr>
+<td align="center">Float</td>
+<td align="center">단정밀도 64bit 부동 소수점 숫자</td>
+<td align="center">-3.402823e38 ~ 3.402823e38</td>
+<td align="center">0.0F</td>
+</tr>
+<tr>
+<td align="center">int</td>
+<td align="center">부호있는 32bit 정수</td>
+<td align="center">-2,147,483,648 ~ 2,147,483,647</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">long</td>
+<td align="center">부호있는 64bit 정수</td>
+<td align="center">-9,223,372,036,854,775,808 ~ 9,223,372,036,854,775,807</td>
+<td align="center">0L</td>
+</tr>
+<tr>
+<td align="center">sbyte</td>
+<td align="center">부호있는 8bit 정수</td>
+<td align="center">-128 ~ 127</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">short</td>
+<td align="center">부호있는 16bit 정수</td>
+<td align="center">-32,768 ~ 32,767</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">uint</td>
+<td align="center">부호없는 32bit 정수</td>
+<td align="center">0 ~ 4,294,967,295</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">ulong</td>
+<td align="center">부호없는 64bit 정수</td>
+<td align="center">0 ~ 18,446,744,073,709,551,615</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">ushort</td>
+<td align="center">부호없는 16bit 정수</td>
+<td align="center">0 ~ 65,535</td>
+<td align="center">0</td>
+</tr>
+</tbody></table>
+<p>아래는 C#의 참조형 형식입니다.</p>
+<table>
+<thead>
+<tr>
+<th align="left">타입</th>
+<th align="left">형식</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">object</td>
+<td align="left">모든 타입의 기본 클래스로 모든 유형을 포함 할 수 있음</td>
+</tr>
+<tr>
+<td align="left">string</td>
+<td align="left">유니코드 문자열</td>
+</tr>
+<tr>
+<td align="left">var</td>
+<td align="left">모든 유형을 포함 할 수 있음.(선언시)</td>
+</tr>
+<tr>
+<td align="left">dynamic</td>
+<td align="left">모든 유형을 포함 할 수 있음.(런타임)</td>
+</tr>
+</tbody></table>
+<h2 id="Object-클래스"><a href="#Object-클래스" class="headerlink" title="Object 클래스"></a>Object 클래스</h2><p>Object클래스는 C#에서 모든 타입의 기본 클래스로 모든 형식(Type)을 포함 할 수 있습니다. 아래는 MSDN에 있는 Object 클래스의 정의입니다.</p>
+<blockquote><p><code>.NET</code> 클래스 계층 구조의 모든 클래스를 지원하며 파생 클래스에 하위 수준 서비스를 제공합니다. 이는 모든 <code>.NET</code> 클래스의 궁극적인 기본 클래스이며 형식 계층 구조의 루트입니다.</p>
+</blockquote>
+
+
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Object</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="예제"><a href="#예제" class="headerlink" title="예제"></a>예제</h3><p>아래 예제에서는 <code>obj1</code>과 <code>obj2</code>의 경우 사실 heap 영역에 각각 다른 인스턴스들을 참조하고 있기 때문에 같지 않다는 결과가 출력됩니다.</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"><span class="built_in">string</span>[] args</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="built_in">object</span> obj1 = <span class="number">20</span>;</span><br><span class="line">        <span class="built_in">object</span> obj2 = <span class="number">20</span>;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">int</span> num1 = <span class="number">10</span>;</span><br><span class="line">        <span class="built_in">int</span> num2 = <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (obj1 == obj2) &#123;</span><br><span class="line">            Console.WriteLine(<span class="string">&quot;Equal.&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            Console.WriteLine(<span class="string">&quot;Not Equal.&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (num1 == num2) &#123;</span><br><span class="line">            Console.WriteLine(<span class="string">&quot;Equal.&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            Console.WriteLine(<span class="string">&quot;Not Equal.&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">Result:</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">Not Equal.</span></span><br><span class="line"><span class="comment">Equal.</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Boxing-UnBoxing"><a href="#Boxing-UnBoxing" class="headerlink" title="Boxing/UnBoxing"></a>Boxing/UnBoxing</h2><p>Boxing과 UnBoxing은 C#에서 중요한 개념입니다. C#의 형식 시스템은 다음과 같은 세가지 형식을 포함합니다.</p>
+<ul>
+<li>값 형식(Value Type) – E.g. int, char, etc.</li>
+<li>참조 형식(Reference Type) – Object</li>
+<li>포인터 형식(Pointer Type)</li>
+</ul>
+<p>기본적으로 값 형식은 참조 형식으로 바꿀 수 있고, 그 반대도 마찬가지 입니다. Boxing과 UnBoxing은 어떠한 형식이든 <code>Object</code>로써 취급될 수 있게 하는 형식 시스템의 통합적인 관점 가능하게 합니다.</p>
+<h3 id="값-형식과-참조-형식의-차이점"><a href="#값-형식과-참조-형식의-차이점" class="headerlink" title="값 형식과 참조 형식의 차이점"></a>값 형식과 참조 형식의 차이점</h3><p>본격적으로 Boxing과 UnBoxing에 대해 알아보기 전에, 알아야 할 것들이 있습니다. 값 형식은 프로그램에 어디에 저장되고, 참조 형식은 또 어디에 저장될까요? 이는 Boxing과 UnBoxing에 필요한 선수 지식이기 때문에 먼저 이에 대해 설명하고자 합니다. 다음은 StackOverflow에서 가져온 질문입니다.</p>
+<blockquote><div class = "en">
+How exactly an object is stored in heap. For example, a bicycle class can be defined like this:
+</div>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Bicycle</span> &#123;</span><br><span class="line">   <span class="keyword">public</span> <span class="built_in">int</span> gear;</span><br><span class="line">   <span class="keyword">public</span> <span class="built_in">int</span> speed;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">Bicycle</span>(<span class="params"><span class="built_in">int</span> startSpeed, <span class="built_in">int</span> startGear</span>)</span> &#123;</span><br><span class="line">       gear = startGear;</span><br><span class="line">       speed = startSpeed;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setGear</span>(<span class="params"><span class="built_in">int</span> newValue</span>)</span> &#123;</span><br><span class="line">       gear = newValue;</span><br><span class="line">   &#125; </span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">applyBrake</span>(<span class="params"><span class="built_in">int</span> decrement</span>)</span> &#123;</span><br><span class="line">       speed -= decrement;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">speedUp</span>(<span class="params"><span class="built_in">int</span> increment</span>)</span> &#123;</span><br><span class="line">      speed += increment;</span><br><span class="line">   &#125;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<div class = "en">
+then I can create an bicycle object:
+</div>
+
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">Bicycle bicycle = <span class="keyword">new</span> Bicycle(<span class="number">20</span>,<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+
+<div class = "en">
+Then this bicycle object should be stored in heap. But I don't understand how heap exactly store these instance variables and methods such as speed and gear.<br><br>
+I understand that heap should be implemented as tree. So how the object is stored in a tree? Also when you use bicycle.speed to find the value of speed, what will be time complexity?
+
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/q/22388079/10584779">StackOverflow - How is an object stored in heap?</a></p>
+</div></blockquote>
+
+<p>즉, 이 사람이 질문한 것은 참조 형식의 변수 <code>object</code>가 정확히 어떻게 <code>heap</code> 영역에 저장되는 것인지를 물어본 것입니다. (그 외에 메서드는 또 어떻게 저장되는지와 heap의 구조와 연관된 질문, 시간 복잡도 등도 물어봤지만 이건 넘어가도록 합시다. 자세한 내용이 궁금하시다면 위의 링크를 타고 가서 보시면 됩니다.)</p>
+<p>거기에 달린 답변은 아래와 같습니다.</p>
+<blockquote><div class = "en">
+... the local variables and parameters go on the stack, and whenever you <code>new</code> something it goes into the heap. It's called a stack because values are pushed onto it when you declare it or call a function, and popped off and they go out of scope.<br>
+...<br>
+So in your example:
+</div>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">Bicycle bicycle = <span class="keyword">new</span> Bicycle(<span class="number">20</span>,<span class="number">10</span>);</span><br></pre></td></tr></table></figure>
+
+<div class = "en">
+    <ul>
+        <li>bicycle is a reference to the heap memory address, today in most languages/systems it will cost you either 32 and 64 bits on the stack.</li>
+        <li>The new allocates memory in the heap. The compiler figures out the size of Bicycle and creates assembly/machine code that allocates the amount of memory it requires.</li>
+    </ul>
+    This is how the memory looks after this line:
+</div>
+
+<pre>
+                    +--------------+
+|              |    | Bicycle obj  |
+|              |    |--------------|
+|              |    |              |
+|              |    |              |
+|--------------|    |              |
+| bicycle ref  |    |              |
++--------------+    
+     Stack                Heap
+</pre>
+
+<div class = "en">
+More specifically, since the Bicycle class has two instance variables (or fields as they are called in Java) and both are <code>int</code>s, and an <code>int</code> in Java is 32 bits or 4 bytes, the size of your Bicycle object is 4 bytes * 2 fields = 8 bytes.
+</div>
+
+<pre>
+                   +-------------+
+|             |   0| gear        | 
+|             |   4| speed       |
+|             |    |-------------|
+|             |   8|             |
+|-------------|  12|             |
+| bicycle=0x4 |    |             |
++-------------+    
+     Stack               Heap
+</pre></blockquote>
+
+<p>답변에서는 지역변수와 매개변수는 스택에 저장되고 <code>new</code>연산자를 쓸때 인스턴스는 힙에, 그 인스턴스를 참조하는 <code>bicycle</code>은 스택에 저장된다는 것입니다. </p>
+<p>또한 힙에 저장되는 인스턴스의 크기는 클래스의 맴버 변수 2개가 모두 <code>int</code>형이고 대부분의 언어 체계에서 4바이트의 크기이기 때문에 결국 8바이트의 크기를 힙 영역에 할당 받는다는 이야기입니다.</p>
+<p>정리하자면 아래와 같습니다.</p>
+<ul>
+<li>일반 값 형식의 변수나 메서드의 매개변수들은 스택에 저장됩니다.</li>
+<li>참조 형식의 변수들은 <code>new</code> 연산자 호출 시 인스턴스는 힙 영역에 그에 대한 참조는 스택영역에 저장됩니다.</li>
+</ul>
+<p>더 자세한 내용을 알고 싶으시다면 아래의 포스트도 읽어보세요.</p>
+<p><a href="../../../../2020/08/16/types-in-csharp/#%EA%B0%92-%ED%98%95%EC%8B%9D%EA%B3%BC-%EC%B0%B8%EC%A1%B0-%ED%98%95%EC%8B%9D%EC%9D%98-%EC%B0%A8%EC%9D%B4%EC%A0%90">C#의 형식 및 값 : 값 형식과 참조 형식의 차이점</a></p>
+<h3 id="Boxing"><a href="#Boxing" class="headerlink" title="Boxing"></a>Boxing</h3><p>Boxing이란 값 형식을 참조 형식으로 바꾸는 과정을 말합니다. Boxing은 암시적인 변환으로 이루어집니다. 아래의 코드를 보시면,</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">int</span> num = <span class="number">23</span>; </span><br><span class="line">Object obj = num; <span class="comment">// Boxing</span></span><br></pre></td></tr></table></figure>
+
+<p>먼저 값 형식의 변수 <code>num</code>이 stack에 저장되면서 10이라는 값을 저장하게 됩니다. 그 다음 <code>Obj</code>가 새로 Stack에 저장되는데, 참조 형식의 변수는 값 자체를 저장하는 변수가 아닙니다.</p>
+<p>참조 형식의 변수는 인스턴스에 대한 참조를 저장하는 변수입니다. 따라서 참조 형식의 변수 <code>obj</code>가 Stack에 저장되고 난 후, Heap에 새로 공간을 할당한 이후 그 공간에 대한 참조가 저장됩니다. 그리고 변수 <code>num</code>에 있는 값 10을 Heap에 복사합니다. 이 과정에 대한 그림은 다음과 같습니다.</p>
+<img src="/2020/08/12/csharp-sbs-200812/Boxing.png" class="" title="Boxing" alt="Boxing">
+
+<h3 id="UnBoxing"><a href="#UnBoxing" class="headerlink" title="UnBoxing"></a>UnBoxing</h3><p>UnBoxing이란 반대로 참조 형식을 값 형식으로 바꾸는 과정을 말합니다. 이때는 명식적인 형 변환으로 이루어집니다.</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">int</span> num = <span class="number">23</span>;         <span class="comment">// value type is int and assigned value 23</span></span><br><span class="line">Object obj = num;    <span class="comment">// Boxing</span></span><br><span class="line"><span class="built_in">int</span> i = (<span class="built_in">int</span>)obj;    <span class="comment">// Unboxing</span></span><br></pre></td></tr></table></figure>
+
+<p>Boxing 후에 <code>obj</code> 변수가 참조하고 있는 인스턴스에 23이 저장되며, UnBoxing 시에 다시 인스턴스에 저장된 값을 스택에 있는 변수 <code>i</code>에 복사하게 됩니다.</p>
+<img src="/2020/08/12/csharp-sbs-200812/UnBoxing.png" class="" title="UnBoxing" alt="UnBoxing">
+
+
+<h2 id="문자열-형식"><a href="#문자열-형식" class="headerlink" title="문자열 형식"></a>문자열 형식</h2><p><code>string</code>은 C#에서 제공하는 기본 참조 형식 중 하나로 0자 이상의 유니코드 문자 시퀀스를 나타냅니다. (또한 .NET의 <code>System.String</code>의 별칭입니다.)</p>
+<p>아래 예제는 <code>string</code>형식의 기본적인 선언 방법입니다.</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// a string literal</span></span><br><span class="line"><span class="built_in">string</span> strLiteral = <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Verbatim Literals</span></span><br><span class="line"><span class="built_in">string</span> strVerbatimLiterals = <span class="string">@&quot;c:\Docs\Source\a.txt&quot;</span>; </span><br><span class="line"></span><br><span class="line"><span class="built_in">string</span> strLiteralCopy = <span class="keyword">new</span> <span class="built_in">string</span>(strLiteral);</span><br><span class="line"></span><br><span class="line"><span class="built_in">char</span>[] chArr = <span class="keyword">new</span> <span class="built_in">char</span>[]&#123;<span class="string">&#x27;W&#x27;</span>, <span class="string">&#x27;o&#x27;</span>, <span class="string">&#x27;r&#x27;</span>, <span class="string">&#x27;l&#x27;</span>, <span class="string">&#x27;d&#x27;</span>&#125;;</span><br><span class="line"><span class="built_in">string</span> strArrCopy = <span class="keyword">new</span> <span class="built_in">string</span>(chArr);</span><br><span class="line"><span class="built_in">string</span> strArrLimitCopy = <span class="keyword">new</span> <span class="built_in">string</span>(chArr, <span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">string</span> strLettersCopy = <span class="keyword">new</span> <span class="built_in">string</span>(<span class="string">&#x27;w&#x27;</span>, <span class="number">4</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">Result:</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">strLiteral = Hello</span></span><br><span class="line"><span class="comment">strVerbatimLiterals = c:\Docs\Source\a.txt</span></span><br><span class="line"><span class="comment">strLiteralCopy = Hello</span></span><br><span class="line"><span class="comment">strArrCopy = World</span></span><br><span class="line"><span class="comment">strArrLimitCopy = rld</span></span><br><span class="line"><span class="comment">strLettersCopy = wwww</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p>위의 예제에 있는 <code>@</code>로 시작하는 문자열은 축자 문자열 리터럴(Verbatim Literal)이라고 합니다. 자 문자열의 장점은 이스케이프 시퀀스가 처리되지 않으므로, 정규화된 Windows 파일 이름 등을 쉽게 쓸 수 있다는 것입니다.</p>
+<p>위의 변수 <code>strVerbatimLiterals</code>와 같이 사용하면 파일 경로 등을 프로그램에서 저장할 일이 있을 때, <code>c:\\Docs\\Source\\a.txt</code>식으로 써주는 것보다 낫습니다.</p>
+<p>또한 아래 예제 처럼 @-quoted 문자열에 큰따옴표를 포함하려면 큰따옴표로 묶어서 사용할 수 있습니다.</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="string">@&quot;&quot;&quot;Ahoy!&quot;&quot; cried the captain.&quot;</span> <span class="comment">// &quot;Ahoy!&quot; cried the captain.</span></span><br></pre></td></tr></table></figure>
+
+<p>더 자세한 내용은 아래를 참고해 주세요.</p>
+<p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ko-kr/dotnet/csharp/language-reference/builtin-types/reference-types#the-string-type">MSDN - 문자열 유형</a></p>
+<p>아래에 몇 가지 예제를 더 살펴봅시다.</p>
+<h3 id="Example-1"><a href="#Example-1" class="headerlink" title="Example #1"></a>Example #1</h3><p><code>String.Format</code> 메서드는 지정된 형식에 따라 개체의 값을 문자열로 변환하여 다른 문자열에 삽입 합니다.</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">int</span>[] years = &#123; <span class="number">2013</span>, <span class="number">2014</span>, <span class="number">2015</span> &#125;;</span><br><span class="line"><span class="built_in">int</span>[] population = &#123; <span class="number">1025632</span>, <span class="number">1105967</span>, <span class="number">1148203</span> &#125;;</span><br><span class="line">String s = String.Format(<span class="string">&quot;&#123;0,-10&#125; &#123;1,-10&#125;\n\n&quot;</span>, <span class="string">&quot;Year&quot;</span>, <span class="string">&quot;Population&quot;</span>);</span><br><span class="line"><span class="keyword">for</span>(<span class="built_in">int</span> index = <span class="number">0</span>; index &lt; years.Length; index++)</span><br><span class="line">   s += String.Format(<span class="string">&quot;&#123;0,-10&#125; &#123;1,-10:N0&#125;\n&quot;</span>,</span><br><span class="line">                      years[index], population[index]);</span><br><span class="line">Console.WriteLine(<span class="string">$&quot;\n<span class="subst">&#123;s&#125;</span>&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Result:</span></span><br><span class="line"><span class="comment">//    Year       Population</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//    2013       1,025,632</span></span><br><span class="line"><span class="comment">//    2014       1,105,967</span></span><br><span class="line"><span class="comment">//    2015       1,148,203</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Example-2"><a href="#Example-2" class="headerlink" title="Example #2"></a>Example #2</h3><p>아래 예제는 <code>string</code> 클래스의 공백 관련 메서드들입니다.</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="입출력"><a href="#입출력" class="headerlink" title="입출력"></a>입출력</h2><p>*추후 수정.</p>
+<h2 id="왜-인스턴스에서는-static-메서드에-접근할-수-없나요"><a href="#왜-인스턴스에서는-static-메서드에-접근할-수-없나요" class="headerlink" title="왜 인스턴스에서는 static 메서드에 접근할 수 없나요?"></a>왜 인스턴스에서는 static 메서드에 접근할 수 없나요?</h2><p>클래스 안에 정의된 <code>static</code> 키워드가 붙은 메서드는 인스턴스에서 접근할 수 없습니다. 이유가 뭘까요? </p>
+<p>아래 코드를 보면,</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">string</span> srcStr = <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line"><span class="built_in">string</span> dstStr;</span><br><span class="line"></span><br><span class="line">dstStr = <span class="built_in">string</span>.Concat(srcStr, <span class="string">&quot; World!&quot;</span>);</span><br><span class="line">Console.WriteLine(<span class="string">$&quot;Result: <span class="subst">&#123;dstStr&#125;</span>&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Output below:</span></span><br><span class="line"><span class="comment">// Result: Hello World!</span></span><br></pre></td></tr></table></figure>
+
+<p><code>srcStr</code>이 참조하고 있는 문자열에 World! 문자열을 붙여서 <code>dstStr</code>에 저장한 후 출력하는 코드입니다. 위의 코드는 문제없이 작동합니다. 위의 코드를 아래와 같이 바꾸고 출력해 보면 어떨까요?</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">dstStr = srcStr.Concat(srcStr, <span class="string">&quot; World!&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>실행시키면 아래와 같은 에러 메세지가 출력됩니다.</p>
+<blockquote><p>error CS0176: Static member `<strong>string.Concat(string, string)</strong>‘ cannot be accessed with an instance reference, qualify it with a type name instead</p>
+</blockquote>
+
+<p>즉, 인스턴스 참조로는 <code>static</code> 메서드를 접근할 수 없으니 형식 이름을 사용하라는 의미입니다. 이유가 뭘까요?</p>
+<p><code>static</code> 선언시 선언과 동시에 정적 영역의 메모리에 저장됩니다. 만약 <code>string</code> 타입의 변수 <code>srcStr</code>가 이러한 메서드들을 사용한다면 이미 정의된 메서드이기 때문에 <code>변수이름.메서드</code>의 형식으로 사용할 수 없습니다.</p>
+<p>즉 <code>string</code> 타입의  변수 <code>str</code>를 선언할 때, 내부적으로 정의된 메서드들을 새롭게 <code>static</code> 영역에 저장하려고 시도하지만 이미 정의된 메서드이기 때문에 불가능합니다.</p>
+<p>따라서 이러한 메서드들을 사용할 때는 <code>형식이름.메서드</code>의 형식으로 호출해야 합니다.</p>
+<blockquote><p>예를 들어봅시다. 클래스를 집으로 가정하면, 그 안에서 메서드는 집에서 쓸 수 있는 기능으로 비유할 수 있습니다. </p>
+<p>여기서 <code>static</code>이 붙은 메서드와 그렇지 않는 메서드의 차이는 <code>static</code>이 붙은 메서드는 모든 집에서 공용으로 사용하는 기능이라고 할 수 있습니다. (예: 주민들을 대상으로 재공하는 주민센터의 헬스장) </p>
+<p>그렇지 않은 메서드들은 그 집집마다 달려있는 기능, 예를 들어 보일러를 튼다든가 전기가 들어온다거나… 하는 기능들이라고 할 수 있습니다.</p>
+</blockquote>
+
+<h2 id="참고"><a href="#참고" class="headerlink" title="참고"></a>참고</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/q/22388079/10584779">StackOverflow - How is an object stored in heap?</a></li>
+<li><a href="../../../../2020/08/16/types-in-csharp/#%EA%B0%92-%ED%98%95%EC%8B%9D%EA%B3%BC-%EC%B0%B8%EC%A1%B0-%ED%98%95%EC%8B%9D%EC%9D%98-%EC%B0%A8%EC%9D%B4%EC%A0%90">C#의 형식 및 값 : 값 형식과 참조 형식의 차이점</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ko-kr/dotnet/csharp/language-reference/builtin-types/reference-types#the-string-type">MSDN - 문자열 유형</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ko-kr/dotnet/api/system.string.format?view=netcore-3.1">MSDN - String.Format Method</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Game-Academy/" rel="tag"># Game Academy</a>
+              <a href="/tags/C/" rel="tag"># C#</a>
+              <a href="/tags/C-%ED%98%95%EC%8B%9D/" rel="tag"># C# 형식</a>
+              <a href="/tags/C-Object/" rel="tag"># C# Object</a>
+              <a href="/tags/Boxing-UnBoxing/" rel="tag"># Boxing/UnBoxing</a>
+              <a href="/tags/Staic-Method/" rel="tag"># Staic Method</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2021/03/07/hello-world/" rel="next" title="Hello World">
+      Hello World <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%EA%B0%9C%EC%9A%94"><span class="nav-number">1.</span> <span class="nav-text">개요</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%9E%90%EB%A3%8C%ED%98%95"><span class="nav-number">2.</span> <span class="nav-text">자료형</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Object-%ED%81%B4%EB%9E%98%EC%8A%A4"><span class="nav-number">3.</span> <span class="nav-text">Object 클래스</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%98%88%EC%A0%9C"><span class="nav-number">3.1.</span> <span class="nav-text">예제</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Boxing-UnBoxing"><span class="nav-number">4.</span> <span class="nav-text">Boxing&#x2F;UnBoxing</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EA%B0%92-%ED%98%95%EC%8B%9D%EA%B3%BC-%EC%B0%B8%EC%A1%B0-%ED%98%95%EC%8B%9D%EC%9D%98-%EC%B0%A8%EC%9D%B4%EC%A0%90"><span class="nav-number">4.1.</span> <span class="nav-text">값 형식과 참조 형식의 차이점</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Boxing"><span class="nav-number">4.2.</span> <span class="nav-text">Boxing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UnBoxing"><span class="nav-number">4.3.</span> <span class="nav-text">UnBoxing</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EB%AC%B8%EC%9E%90%EC%97%B4-%ED%98%95%EC%8B%9D"><span class="nav-number">5.</span> <span class="nav-text">문자열 형식</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Example-1"><span class="nav-number">5.1.</span> <span class="nav-text">Example #1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Example-2"><span class="nav-number">5.2.</span> <span class="nav-text">Example #2</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%9E%85%EC%B6%9C%EB%A0%A5"><span class="nav-number">6.</span> <span class="nav-text">입출력</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%99%9C-%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4%EC%97%90%EC%84%9C%EB%8A%94-static-%EB%A9%94%EC%84%9C%EB%93%9C%EC%97%90-%EC%A0%91%EA%B7%BC%ED%95%A0-%EC%88%98-%EC%97%86%EB%82%98%EC%9A%94"><span class="nav-number">7.</span> <span class="nav-text">왜 인스턴스에서는 static 메서드에 접근할 수 없나요?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%B0%B8%EA%B3%A0"><span class="nav-number">8.</span> <span class="nav-text">참고</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="LSH"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">LSH</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LSH</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
