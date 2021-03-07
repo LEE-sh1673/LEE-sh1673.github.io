@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>Pass-by-Value vs. Pass-by-Reference</title>
+      <link href="2021/03/07/evaluation-strategies/"/>
+      <url>2021/03/07/evaluation-strategies/</url>
+      
+        <content type="html"><![CDATA[<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>I finally decided to write up a little something about Java’s parameter passing. I’m really tired of hearing folks (incorrectly) state “primitives are passed by value, objects are passed by reference”.</p><p>I’m a compiler guy at heart. The terms “pass-by-value” semantics and “pass-by-reference” semantics have very precise definitions, and they’re often horribly abused when folks talk about Java. I want to correct that… The following is how I’d describe these.</p><h3 id="Pass-by-value"><a href="#Pass-by-value" class="headerlink" title="Pass-by-value"></a>Pass-by-value</h3><p>The actual parameter (or argument expression) is fully evaluated and the resulting value is copied into a location being used to hold the formal parameter’s value during method/function execution. That location is typically a chunk of memory on the runtime stack for the application (which is how Java handles it), but other languages could choose parameter storage differently.</p><h3 id="Pass-by-reference"><a href="#Pass-by-reference" class="headerlink" title="Pass-by-reference"></a>Pass-by-reference</h3><p>The formal parameter merely acts as an alias for the actual parameter. Anytime the method/function uses the formal parameter (for reading or writing), it is actually using the actual parameter.</p><p>Java is <em><strong>strictly</strong></em> pass-by-value, exactly as in C. Read the Java Language Specification (JLS). It’s spelled out, and it’s correct. In <a href="https://docs.oracle.com/javase/specs/jls/se11/html/jls-8.html#jls-8.4.1">https://docs.oracle.com/javase/specs/jls/se11/html/jls-8.html#jls-8.4.1</a>:</p><blockquote><p>When the method or constructor is invoked (§15.12), the values of the actual argument expressions initialize newly created parameter variables, each of the declared type, before execution of the body of the method or constructor. The Identifier that appears in the FormalParameter may be used as a simple name in the body of the method or constructor to refer to the formal parameter.</p></blockquote><p>Note: In the above, values is my emphasis, not theirs</p><p>Section 15.12.4.2 (<a href="https://docs.oracle.com/javase/specs/jls/se11/html/jls-15.html#jls-15.12.4.2">https://docs.oracle.com/javase/specs/jls/se11/html/jls-15.html#jls-15.12.4.2</a>) states:</p><blockquote><p>The argument expressions (possibly rewritten as described above) are now evaluated to yield argument values. Each argument value corresponds to exactly one of the method’s n formal parameters.</p></blockquote><p>In short: Java <strong>has</strong> pointers and is strictly pass-by-value. There are no special rules. It’s simple, clean, and clear. (Well, as clear as the evil C++ - like syntax will allow;)</p><p><em>Note: See the note at the end of this article, “A Note on Remote Method Invocation”, for the semantics of remote method invocation (RMI). What is typically called “pass by reference” for remote objects is actually incredibly bad semantics.</em></p><h2 id="The-Litmus-Test"><a href="#The-Litmus-Test" class="headerlink" title="The Litmus Test"></a>The Litmus Test</h2><p>There’s a simple “litmus test” for whether a language supports pass-by-reference semantics:</p><p><em>Can you write a traditional <code>swap(a,b)</code> method/function in the language?</em></p><p>A traditional swap method or function takes two arguments and swaps them such that variables passed into the function are changed outside the function. Its basic structure looks like</p><figure class="highlight c"><table><tr><td class="code"><pre><span class="line">swap(Type arg1, Type arg2) &#123;</span><br><span class="line">    Type temp = arg1;</span><br><span class="line">    arg1 = arg2;</span><br><span class="line">    arg2 = temp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>If you can write such a method/function in your language such that calling</p><figure class="highlight c"><table><tr><td class="code"><pre><span class="line">Type var1 = ...;</span><br><span class="line">Type var2 = ...;</span><br><span class="line">swap(var1,var2);</span><br></pre></td></tr></table></figure><p>actually switches the values of the variables <code>var1</code> and <code>var2</code>, the language supports pass-by-reference semantics.</p><p>For example, in Pascal, you can write</p><figure class="highlight pascal"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">procedure</span> <span class="title">swap</span><span class="params">(<span class="keyword">var</span> arg1, arg2: SomeType)</span>;</span></span><br><span class="line"><span class="keyword">var</span></span><br><span class="line">    temp : SomeType;</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">    temp := arg1;</span><br><span class="line">    arg1 := arg2;</span><br><span class="line">    arg2 := temp;</span><br><span class="line"><span class="keyword">end</span>;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="comment">&#123; in some other procedure/function/program &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span></span><br><span class="line">    var1, var2 : SomeType;</span><br><span class="line"></span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">    var1 := ...; <span class="comment">&#123; value &quot;A&quot; &#125;</span></span><br><span class="line">    var2 := ...; <span class="comment">&#123; value &quot;B&quot; &#125;</span> </span><br><span class="line">    swap(var1, var2);</span><br><span class="line">    <span class="comment">&#123; now var1 has value &quot;B&quot; and var2 has value &quot;A&quot; &#125;</span></span><br><span class="line"><span class="keyword">end</span>;</span><br></pre></td></tr></table></figure><p>or in C++ you could write</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Programming </category>
+          
+          <category> Evaluation Strategy </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> evaluation strategy </tag>
+            
+            <tag> call by value </tag>
+            
+            <tag> call by reference </tag>
+            
+            <tag> reference </tag>
+            
+            <tag> pointer </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>How to install local search in hexo blog</title>
+      <link href="2021/03/07/teset/"/>
+      <url>2021/03/07/teset/</url>
+      
+        <content type="html"><![CDATA[<h2 id="개요"><a href="#개요" class="headerlink" title="개요"></a>개요</h2><ul><li>losdlfkjslfjklsjdlfj</li><li>sdkljflsdjf</li><li><ul><li>losdlfkjslfjklsjdlfj</li></ul></li><li>sdkljflsdjf</li><li><ul><li>losdlfkjslfjklsjdlfj</li></ul></li><li>sdkljflsdjf</li></ul><h2 id="Local-Search"><a href="#Local-Search" class="headerlink" title="Local Search"></a>Local Search</h2>]]></content>
+      
+      
+      <categories>
+          
+          <category> blog </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> hexo </tag>
+            
+            <tag> local search </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Hello World</title>
+      <link href="2021/03/07/hello-world/"/>
+      <url>2021/03/07/hello-world/</url>
+      
+        <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+  
+  
+</search>
