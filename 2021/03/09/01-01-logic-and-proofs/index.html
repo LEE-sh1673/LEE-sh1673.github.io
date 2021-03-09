@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<!-- custom font cdn here. -->
+<link rel="stylesheet" href = "/font/custom_fonts.css"> 
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"lee-sh1673.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Rosen&#39;s discrete mathematics chapter 01, logic and proofs">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Logic and proofs - propositional logic">
+<meta property="og:url" content="http://lee-sh1673.github.io/2021/03/09/01-01-logic-and-proofs/index.html">
+<meta property="og:site_name" content="NotePad">
+<meta property="og:description" content="Rosen&#39;s discrete mathematics chapter 01, logic and proofs">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://lee-sh1673.github.io/2021/03/09/01-01-logic-and-proofs/01.png">
+<meta property="article:published_time" content="2021-03-09T11:48:15.000Z">
+<meta property="article:modified_time" content="2021-03-09T14:13:02.055Z">
+<meta property="article:author" content="LSH">
+<meta property="article:tag" content="math">
+<meta property="article:tag" content="mathematics">
+<meta property="article:tag" content="discrete mathematics">
+<meta property="article:tag" content="logic">
+<meta property="article:tag" content="proofs">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lee-sh1673.github.io/2021/03/09/01-01-logic-and-proofs/01.png">
+
+<link rel="canonical" href="http://lee-sh1673.github.io/2021/03/09/01-01-logic-and-proofs/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Logic and proofs - propositional logic | NotePad</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">NotePad</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://lee-sh1673.github.io/2021/03/09/01-01-logic-and-proofs/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="LSH">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="NotePad">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Logic and proofs - propositional logic
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-03-09 20:48:15 / Modified: 23:13:02" itemprop="dateCreated datePublished" datetime="2021-03-09T20:48:15+09:00">2021-03-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/mathematics/" itemprop="url" rel="index"><span itemprop="name">mathematics</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/mathematics/discrete-mathematics/" itemprop="url" rel="index"><span itemprop="name">discrete mathematics</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/mathematics/discrete-mathematics/logic-and-proofs/" itemprop="url" rel="index"><span itemprop="name">logic and proofs</span></a>
+                </span>
+            </span>
+
+          
+            <div class="post-description">Rosen's discrete mathematics chapter 01, logic and proofs</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="들어가기-전에"><a href="#들어가기-전에" class="headerlink" title="들어가기 전에"></a>들어가기 전에</h2><p>이번 장에서는 논리와 증명 파트에서 명제 논리에 대해 알아볼 것이다. 본격적으로 들어가기에 앞서 논리와 추론에 대해 생각해보자. </p>
+<p>논리 규칙은 수학적 진술의 의미를 분명히 알려준다. 예를 들어 아래와 같은 표현을 이해하고 또 추론(追論)할 수 있게 해준다.</p>
+<ul>
+<li>두수의 제곱의 합이 아닌 정수가 존재한다.</li>
+<li>모든 양의 정수 $n$에 대하여 $n$보다 크지 않은 양의 정수의 합은 $n(n + 1) / 2$다.</li>
+</ul>
+<p>그렇다면 추론은 무엇일까? 추론의 사전적 정의는 아래와 같다.</p>
+<div class="note default">
+            <h3 id="추론-Inference"><a href="#추론-Inference" class="headerlink" title="추론 (Inference)"></a>추론 (Inference)</h3><ul><li>이미 알고 있는 사실이나 명제를 토대로 결론을 이끌어 내는 사고 과정</li><li>알려진 사실들로부터 모르는 것을 이끌어내는 과정</li></ul>
+          </div>
+
+<p>즉 논리는 수학적 진술들에 대한 논리적 결론을 내릴 수 있도록 도와 주며, 또한 논리는 계산 기계 설계, 시스템 명세, 인공지능, 컴퓨터 프로그래밍, 프로그래밍 언어와 같은 컴퓨터 과학 분야는 물론 다른 전문 분야에서도 실용적으로 활용되고 있다.</p>
+<p>그렇다면 논리의 목적은 무엇일까? 바로 올바른 수학적 논증, 즉 증명(proof)을 세우는 것이다. 수학을 이해하기 위해서는 우리는 증명에 대하여 이해하여야 하며, 이 때문에 논리 또한 수학에서 중요한 것이다.</p>
+<p>우리가 수학적 진술이 참이라는 것을 증명하게 되면 우리는 그것을 정리(Theorem)이라고 부른다. 하나의 주제에 대한 정리들의 모음은 그 주제에 대하여 우리가 갖게 되는 지식을 이루게 된다. 그렇기에 어떤 수학적 논증을 적극적으로 작성해 볼 필요가 있다.</p>
+<p>증명은 수학뿐만 아니라 CS에서도 중요하다. 사실상 증명은 컴퓨터 프로그램이 모든 가능한 입력 값에 대하여 항상 올바른 출력을 생성한다는 것을 증명하거나, 알고리즘이 항상 올바른 결과를 산출한다는 것을 보이거나, 인공지능을 창안하는데 사용된다. 더욱이 컴퓨터가 정리를 스스로 증명할 수 있는 자동 증명 시스템이 만들어졌다.</p>
+<p>이 장에서는 우리는 올바른 수학적 논증을 구성하는것이 무엇인지 설명하고 이러한 논증을 구축하기 위한 여러 가지 도구들을 만나볼 것이다. 또한 여러 가지 형태의 결과들을 증명할 수 있게 하는 다양한 증명 방법들을 공부할 것이다. 이후 증명을 생성하기 위한 몇 가지 전략들을 소개하고 또 가설의 개념을 소개하고 가설에 대해 고찰함으로써 수학을 개발하는 과정에 대하여 설명하겠다. </p>
+<h3 id="정리"><a href="#정리" class="headerlink" title="정리"></a>정리</h3><ol>
+<li>논리는 다양한 수학적 진술을 이해하고 추론하는데 도움을 준다.</li>
+<li>논리는 수학적 진술들을 정확하게 증명 또는 반증할 수 있도록 도와준다.</li>
+<li>논리의 목적은 증명을 세우는 것이다. </li>
+<li>수학적 진술이 참이라는 것을 증명하게 되면 그것을 정리라고 부른다.</li>
+<li>증명은 수학 뿐만 아니라 CS에서도 알고리즘, AI 분야에서 널리 사용된다.</li>
+</ol>
+<h2 id="목차"><a href="#목차" class="headerlink" title="목차"></a>목차</h2><details>
+<summary>show details</summary>
+
+<ol>
+<li><span style = "color: #FC6423; font-weight:bold; text-decoration: underline;">명제 논리</span><ol>
+<li><span style = "color: #FC6423; text-decoration: underline;">명제</span></li>
+<li><span style = "color: #FC6423; text-decoration: underline;">명제 논리란?</span></li>
+<li><span style = "color: #FC6423; text-decoration: underline;">조건문</span></li>
+<li><span style = "color: #FC6423; text-decoration: underline;">논리 연산자의 우선순위</span></li>
+</ol>
+</li>
+<li>명제 논리의 응용</li>
+<li>명제의 동치<ol>
+<li>논리적 동치</li>
+<li>드 모르간 법칙 사용하기</li>
+<li>명제의 만족가능성</li>
+<li>만족가능성의 응용</li>
+</ol>
+</li>
+<li>슬어와 한정기호<ol>
+<li>술어</li>
+<li>한정기호</li>
+</ol>
+</li>
+<li>중첩된 한정기호</li>
+<li>추론 규칙<ol>
+<li>명제 논리에서의 정당한 논증</li>
+<li>명제 논리에 대한 추론 규칙</li>
+<li>논증 생성을 위한 추론 규칙의 사용</li>
+<li>증명의 오류</li>
+</ol>
+</li>
+<li>증명의 소개<ol>
+<li>몇 가지 용어들</li>
+<li>정리는 어떻게 기술되는가?</li>
+<li>정리 증명 방법</li>
+<li>직접 증명</li>
+<li>모순에 의한 증명</li>
+<li>증명에 의한 실수</li>
+</ol>
+</li>
+<li>증명 방법과 전략<ol>
+<li>전수 증명과 경우에 의한 증명</li>
+<li>존재 증명</li>
+<li>유일성 증명</li>
+<li>증명 전략</li>
+<li>증명 전략의 실례</li>
+<li>타일 깔기</li>
+<li>미해결 문제들의 역할</li>
+<li>그 외의 증명 방법</details></li>
+</ol>
+</li>
+</ol>
+<h2 id="명제-논리"><a href="#명제-논리" class="headerlink" title="명제 논리"></a>명제 논리</h2><h3 id="명제"><a href="#명제" class="headerlink" title="명제"></a>명제</h3><p>명제는 논리의 기본 구성요소로서, 참 또는 거짓 중 하나를 나타내는 선언적 문장(어떤 사실을 선언하는 문장)을 말한다.</p>
+<p>다음 예는 모두 명제이다.</p>
+<ol>
+<li>미국의 수도는 워싱텅 D.C이다.</li>
+<li>캐나다의 수도는 토론토이다.</li>
+<li>1 + 1 = 2</li>
+<li>2 + 2 = 3</li>
+</ol>
+<p>명제 1과 3은 참이며, 2와 4는 거짓이다.</p>
+<p>다음 문장을 살펴보자.</p>
+<ol>
+<li>몇 시 입니까?</li>
+<li>이것을 주의 깊게 읽어라.</li>
+<li>$x + 1 = 2$</li>
+<li>$x + y = z$</li>
+</ol>
+<p>문장 1과 2는 명제가 아니다. 의문문과 명령문으로서 참 또는 거짓을 판정할 수 있는 선언적 문장이 아니기 때문이다. 3과 4도 명제가 아니다. 왜냐하면 그들은 참도 거짓도 아니기 때문이다. 문장 3과 4는 변수에 값이 배정되어야 명제가 될 수도 있다는 점에 유의하라.</p>
+<p>숫자 변수를 나타내는데 문자를 사용한 것과 마찬가지로 명제를 표현하는 변수 또한 문자로 나타낼 수 있다. 이를 <strong>명제 변수</strong>(또는 문장 변수)라고 한다. 명제를 나타내는 전통적인 문자들은 $p$, $q$, $r$, $s$, $…$ 이다. 명제의 진리값이 참일 때는 $T$, 거짓일 때는 $F$를 사용한다, 더 단순한 명제로 나눌 수 없는 명제는 <strong>단순명제</strong>라고 한다.</p>
+<h3 id="명제-논리란"><a href="#명제-논리란" class="headerlink" title="명제 논리란?"></a>명제 논리란?</h3><p><strong>명제 산술</strong>(propositional calculus) 또는 <strong>명제 논리</strong>(propositional logic)은 말그대로 명제를 다루는 논리를 말한다. 구체적으로는 단순 명제에 논리합이나 부정 등의 산술 연산을 적용한 명제들을 다루는 논리 체계를 말한다.</p>
+<p>기존의 명제로부터 새로운 명제를 만드는 방법을 알아보자. 하나 또는 여러 개의 명제를 조합하여 새로운 명제를 만들 수 있다. (<em>The Laws of Thought, George Boole, 1854</em>) 이것을 <strong>복합 명제</strong>라고 하며, 논리 연산자를 이용하여 기존의 명제들로부터 만든다.</p>
+<div class="note default">
+            <p>$p$가 명제라 하면 $¬p$ 또는 $¬\overline{p}$로 표기되는 $p$의 부정(negation)은</p><p>“It is not the case that $p$”.</p><p>의 문장이 된다. 명제 $¬p$는 “not p”로 읽는다. $p$의 부정, 즉 $¬p$의 진리값은 $p$의 반대가 된다.</p>
+          </div>
+
+<h3 id="조건문"><a href="#조건문" class="headerlink" title="조건문"></a>조건문</h3><p>기존 명제로부터 새로운 명제를 만들어 내는 다른 몇 가지 중요한 방법을 살펴보자.</p>
+<div class="note default">
+            <ul><li>$p$와 $q$가 명제라면, 조건문 $p \to q$는 명제 “if $p$, then $q$.”이다.</li><li>조건문 $p \to q$는 $p$가 거짓일 경우에 거짓이며, 그 외 다른 경우에는 모두 참이다. 이때 p를 가정(또는 전체, 전항)이라고 하며, $q$를 결론(또는 결과)이라고 한다. </li></ul>
+          </div>
+
+<p>아래 표는 $p \to q$에 대한 진리표이다. 조건문 $p \to q$는 $p$, $q$가 모두 참이거나 $p$가 거짓일 때($p$의 값에 상관없이) 참이 된다는 것에 유의하라.</p>
+<table>
+<thead>
+<tr>
+<th>$p$</th>
+<th>$q$</th>
+<th>$p \to q$</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$T$</td>
+<td>$T$</td>
+<td>$T$</td>
+</tr>
+<tr>
+<td>$T$</td>
+<td>$F$</td>
+<td>$F$</td>
+</tr>
+<tr>
+<td>$F$</td>
+<td>$T$</td>
+<td>$T$</td>
+</tr>
+<tr>
+<td>$F$</td>
+<td>$F$</td>
+<td>$T$</td>
+</tr>
+</tbody></table>
+<p>명제 $p \to q$는 $p$가 성립한다는 조건상에서 $q$가 참이라는 것을 주장하기 때문에, 이를 조건문 또는 <strong>함축</strong>(implication)이라고 한다.</p>
+<p>조건문은 수학적 추론에서 매우 중요한 역할을 하기 때문에 $p \to q$를 나타내는 데 아래와 같이 여러 표현이 사용된다. 전부는 아닐지라도 다음과 같은 조건문 표현을 접할 것이다.</p>
+<img src="/2021/03/09/01-01-logic-and-proofs/01.png" class="">
+
+<p>조건문의 진리값을 이해하기 위한 유용한 방법은 의무 또는 계약을 생각하는 것이다. 많은 정치가들이 선거에 출마하여 발표하는 다음과 같은 공략을 예로 들어보자.</p>
+<blockquote>
+<p>“If I am elected, then I will lower taxes.”</p>
+</blockquote>
+<ul>
+<li>만약 정치가가 당선되면 유권자들은 정치가가 세금을 낮출 것이라고 기대할 것이다.</li>
+<li>정치가가 당선되지 않았다면 우권자들은 그 정치가가 세금을 낮출 수 있는 영향력을 갖고 있다 하더라도 세금을 낮추리라 기대하지 않을 것이다.</li>
+<li>유권자들이 정치가가 약속을 이행하지 않았다.(거짓)고 말할 수 있는 경우느 “If I am elected”이라는 가정이 만족되었음(참)에도 불구하고 “then I will lower taxes”라고 하는 결론을 이행하지 않앗을 경우에만 거짓이라고 판정할 수 있다는 것이다.</li>
+<li>이는 $p \to q$에서 $p$가 거짓, $q$가 참인 경우에 해당한다.</li>
+</ul>
+<div class="note warning">
+            <p><strong>비고:</strong> $p \to q$와 같은 조건문을 표현하는 일부 방법들이 혼동을 일으킬 수 있기 때문에, 추가적인 지침을 제시하고자 한다. 아래 2가지 조건문 표현은 동일한 의미이다.</p><ul><li>$p$ only if $q$.</li><li>If $p$, then $q$.</li></ul><p>이를 기억하기 위해 $q$가 참이 아니면 $p$가 참일 수 없다는 것에 주목하라. 즉 이 문장은 $p$가 참인데 $q$가 거짓이면 거짓이다. $p$가 거짓일 때 $q$는 참이거나 거짓일 수 있다. 왜냐하면 이 문장은 $q$의 값에 대하여는 아무것도 말하지 않기 때문이다.</p>
+          </div>
+
+<p>예를 들어, 교수가 다음과 같이 말했다고 가정하자.</p>
+<blockquote>
+<p>“You can received an A in the course only if your score on the final is at least 90%.”</p>
+</blockquote>
+<p>그러면, 만약 A 학점을 받는다면, 기말고사 점수가 최소한 90%라는 것을 안다. 만약 A학점을 받지 못했다면, 기말 점수가 최소한 90%가 아닐 수도 있다. $p \to q$를 표현하기 위해서 “q only if p”를 사용하지 말하야 한다, 왜냐하면 이는 틀린 표현이기 때문이다. 단어 ‘only’가 여기서 핵심 역할을 수행한다. 이를 이해하기 위하여 $p$와 $q$가 다른 진리값을 가지면, “$q$ only if $p$”와 $p \to q$의 진리값이 달라짐(차이가 남)을 유의해야 한다.</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/math/" rel="tag"># math</a>
+              <a href="/tags/mathematics/" rel="tag"># mathematics</a>
+              <a href="/tags/discrete-mathematics/" rel="tag"># discrete mathematics</a>
+              <a href="/tags/logic/" rel="tag"># logic</a>
+              <a href="/tags/proofs/" rel="tag"># proofs</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/07/evaluation-strategies/" rel="prev" title="Pass-by-Value vs. Pass-by-Reference">
+      <i class="fa fa-chevron-left"></i> Pass-by-Value vs. Pass-by-Reference
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%EB%93%A4%EC%96%B4%EA%B0%80%EA%B8%B0-%EC%A0%84%EC%97%90"><span class="nav-number">1.</span> <span class="nav-text">들어가기 전에</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%B6%94%EB%A1%A0-Inference"><span class="nav-number">1.1.</span> <span class="nav-text">추론 (Inference)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%A0%95%EB%A6%AC"><span class="nav-number">1.2.</span> <span class="nav-text">정리</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EB%AA%A9%EC%B0%A8"><span class="nav-number">2.</span> <span class="nav-text">목차</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EB%AA%85%EC%A0%9C-%EB%85%BC%EB%A6%AC"><span class="nav-number">3.</span> <span class="nav-text">명제 논리</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EB%AA%85%EC%A0%9C"><span class="nav-number">3.1.</span> <span class="nav-text">명제</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EB%AA%85%EC%A0%9C-%EB%85%BC%EB%A6%AC%EB%9E%80"><span class="nav-number">3.2.</span> <span class="nav-text">명제 논리란?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%A1%B0%EA%B1%B4%EB%AC%B8"><span class="nav-number">3.3.</span> <span class="nav-text">조건문</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="LSH"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">LSH</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LSH</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>
