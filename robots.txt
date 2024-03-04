@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Sitemap: https://lee-sh1673.github.io/sitemap-index.xml
+Host: https://lee-sh1673.github.io
